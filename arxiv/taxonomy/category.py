@@ -7,7 +7,7 @@ class BaseTaxonomy(BaseModel):
     id: str
     full_name: str
     is_active: bool
-    alt_name: Optional[str] #any other name the category may be known as (like if part of an alias or subsumed archive pair)
+    alt_name: Optional[str] = None #any other name the category may be known as (like if part of an alias or subsumed archive pair)
     
     @property
     def canonical_id(self) -> str:
@@ -60,8 +60,8 @@ class BaseTaxonomy(BaseModel):
 class Group(BaseTaxonomy):
     """Represents an arXiv group--the highest (most general) taxonomy level."""
     start_year: int
-    default_archive: Optional[str]
-    is_test: Optional[bool]
+    default_archive: Optional[str] = None
+    is_test: Optional[bool] = None
 
     def get_archives(self, include_inactive: bool = False) -> List['Archive'] :
         """creates a list of all archives withing the group. By default only includes active archives"""
@@ -76,7 +76,7 @@ class Archive(BaseTaxonomy):
 
     in_group: str
     start_date: date
-    end_date: Optional[date]
+    end_date: Optional[date] = None
 
     def get_group(self) -> Group:
         """Returns parent archive."""
@@ -105,7 +105,7 @@ class Category(BaseTaxonomy):
 
     in_archive: str
     is_general: bool
-    description: Optional[str]
+    description: Optional[str] = None
 
     def get_archive(self) -> Archive:
         """Returns parent archive."""
