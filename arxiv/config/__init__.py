@@ -5,7 +5,13 @@ import os
 from sqlalchemy.engine.interfaces import IsolationLevel
 from secrets import token_hex
 from urllib.parse import urlparse
-from pydantic import BaseSettings, SecretStr
+try:
+    from pydantic import BaseSettings, SecretStr
+except Exception:
+    # Pydantic v2 exposes the v1 API via ``pydantic.v1`` for backwards
+    # compatibility. Fall back to that shim when BaseSettings is not available
+    # directly from ``pydantic``.
+    from pydantic.v1 import BaseSettings, SecretStr
 
 DEFAULT_DB = "sqlite:///tests/data/browse.db"
 DEFAULT_LATEXML_DB = "sqlite:///tests/data/latexml.db"
