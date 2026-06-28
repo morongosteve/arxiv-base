@@ -10,7 +10,7 @@ Each component of this project **must** meet all the following criteria:
 2. Once stable, it is unlikely to change often.
 3. It is unlikely that implementing new features in specific services
    would require changes to the component.
-4. When a component does change, it **must** change in the same way for all    the services that use it.
+4. When a component does change, it **must** change in the same way for all the services that use it.
 
 ## Base CSS and Templates for arXiv.org-NG
 
@@ -121,8 +121,8 @@ We use [Flask-S3](https://flask-s3.readthedocs.io/en/latest/) to serve static
 files via S3. To deploy the assets for the current version:
 
   pip install ./
-  AWS_ACCESS_KEY_ID=x \
-  AWS_SECRET_ACCESS_KEY=x+3RcGf1Oul66cwSJbZZcdZdEv0ZC9ax2 \
+  AWS_ACCESS_KEY_ID=<your-access-key-id> \
+  AWS_SECRET_ACCESS_KEY=<your-secret-access-key> \
   AWS_REGION=us-east-1 FLASKS3_BUCKET_NAME=arxiv-web-static1 \
   python upload_static_assets.py
 
@@ -172,8 +172,15 @@ Adding ``class="beta"`` to the main content div will create a beta watermark at
 
 ## Upload to pypi
 
+This project is managed with [Poetry](https://python-poetry.org/), so build and
+publish with Poetry directly:
+
 ```bash
-pip install --upgrade setuptools wheel twine
-python setup.py sdist bdist_wheel
-twine --upload dist/*  # Enter username and password from lastpass
+poetry build              # Creates sdist and wheel under dist/
+poetry publish            # Publish to PyPI (configure credentials first)
+# Or build and publish in one step:
+poetry publish --build
 ```
+
+Configure your PyPI token once with
+``poetry config pypi-token.pypi <your-token>`` before publishing.
